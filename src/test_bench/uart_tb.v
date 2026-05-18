@@ -190,13 +190,9 @@ module tb;
             if (cond) begin
                 pass_count = pass_count + 1;
                 $display("  [PASS] %0s", msg);
-                //$display("DUT: TX_DATA=%b TX_DONE=%b TX_ACTIVE=%b | RX_DATA=%h RX_READY=%b RX_BUSY=%b",uart_XMIT_dataH_dut, xmit_doneH_dut, xmit_active_dut,rec_dataH_dut,rec_readyH_dut,rec_busy_dut);
-                //$display("REF: TX_DATA=%b TX_DONE=%b TX_ACTIVE=%b | RX_DATA=%h RX_READY=%b RX_BUSY=%b",uart_XMIT_dataH_ref, xmit_doneH_ref, xmit_active_ref,rec_dataH_ref,rec_readyH_ref,rec_busy_ref);
             end else begin
                 fail_count = fail_count + 1;
                 $display("[FAIL] %0s", msg);
-                //$display("DUT: TX_DATA=%b TX_DONE=%b TX_ACTIVE=%b | RX_DATA=%h RX_READY=%b RX_BUSY=%b",uart_XMIT_dataH_dut, xmit_doneH_dut, xmit_active_dut,rec_dataH_dut,rec_readyH_dut,rec_busy_dut);
-                //$display("REF: TX_DATA=%b TX_DONE=%b TX_ACTIVE=%b | RX_DATA=%h RX_READY=%b RX_BUSY=%b",uart_XMIT_dataH_ref, xmit_doneH_ref, xmit_active_ref,rec_dataH_ref,rec_readyH_ref,rec_busy_ref);
             end
         end
     endtask
@@ -356,33 +352,6 @@ module tb;
         end
         endtask
 
-    //checks output individually to identify which one went wrong
-    /*task compare_outputs;
-        input [100*8:1] test_name;
-        begin
-            check(uart_XMIT_dataH_dut == uart_XMIT_dataH_ref,{test_name, " : TX_DATA"});
-            check(xmit_doneH_dut == xmit_doneH_ref,{test_name, " : TX_DONE"});
-            check(xmit_active_dut == xmit_active_ref,{test_name, " : TX_ACTIVE"});
-            check(rec_dataH_dut == rec_dataH_ref,{test_name, " : RX_DATA"});
-            check(rec_readyH_dut == rec_readyH_ref,{test_name, " : RX_READY"});
-            check(rec_busy_dut == rec_busy_ref,{test_name, " : RX_BUSY"});
-        end
-    endtask
-    */
-
-    /*function compare_outputs(
-        input uart_XMIT_dataH_dut, uart_XMIT_dataH_ref);
-        begin
-            compare_outputs = 1;
-            if(uart_XMIT_dataH_dut != uart_XMIT_dataH_ref) compare_outputs = 0;
-            if(uart_doneH_dut != uart_doneH_ref) compare_outputs = 0;
-            if(uart_active_dut != uart_active_ref) compare_outputs = 0;
-            if(rec_dataH_dut != rec_dataH_ref) compare_outputs = 0;
-            if(rec_busy_dut != rec_busy_ref) compare_outputs = 0;
-            if(rec_readyH_dut != rec_readyH_ref) compare_outputs = 0;
-        end
-    endfunction
-    */
 
     //Tx: send one byte, assert xmitH(1 cyc)
     task tx_task;
@@ -480,33 +449,6 @@ module tb;
         end
     endtask
 
-    //RX: drives uart frame onto uart_REC_dataH
-    /*task rx_test;
-        input [WORD_LEN-1:0] data;
-        input bad_stop;
-        input [100*8:1] test_name;
-        integer i;
-        begin
-            uart_REC_dataH = 1;
-            @(posedge sys_clk);
-            uart_REC_dataH = 0;
-            repeat(BIT_CLKS + (BIT_CLKS/4)) @(posedge sys_clk); #1;
-            compare_outputs({test_name, " START"});
-            for (i = 0; i < WORD_LEN; i = i+1) begin
-                uart_REC_dataH = data[i];
-                repeat(BIT_CLKS) @(posedge sys_clk);
-            end
-            #1;
-            compare_outputs({test_name, " AFTER_DATA"});
-            uart_REC_dataH = bad_stop ? 1'b0 : 1'b1;
-            repeat(BIT_CLKS) @(posedge sys_clk); #1;
-            compare_outputs({test_name, " STOP"});
-            uart_REC_dataH = 1;
-            repeat(BIT_CLKS) @(posedge sys_clk); #1;
-            compare_outputs({test_name, " IDLE"});
-        end
-    endtask
-    */
     task rx_test;
     input [WORD_LEN-1:0] data;
     input bad_stop;
