@@ -106,6 +106,7 @@ module u_rec #(parameter WORD_LEN = 8)(
                         rec_readyH <= 1;
                         rec_busy <= 0;
                         count_word <= 0;
+			temp <= 0;
                 end
                 else begin
                         case(PS)
@@ -114,6 +115,7 @@ module u_rec #(parameter WORD_LEN = 8)(
                                         rec_readyH <= ~(prev_data && !data);
                                         rec_busy <= (prev_data && !data);
                                         count_word <= 0;
+					temp <= 0;
                                 end
                                 START: begin
                                         rec_dataH <= 0;
