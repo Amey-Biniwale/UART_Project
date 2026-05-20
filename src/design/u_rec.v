@@ -102,10 +102,10 @@ module u_rec #(parameter WORD_LEN = 8)(
         
         always @(posedge uart_clk or negedge sys_rst_1) begin
                 if(!sys_rst_1) begin
-                        rec_dataH = 0;
-                        rec_readyH = 1;
-                        rec_busy = 0;
-                        count_word = 0;
+                        rec_dataH <= 0;
+                        rec_readyH <= 1;
+                        rec_busy <= 0;
+                        count_word <= 0;
                 end
                 else begin
                         case(PS)
