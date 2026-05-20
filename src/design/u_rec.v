@@ -15,8 +15,8 @@ module u_rec #(parameter WORD_LEN = 8)(
 
         always @(posedge uart_clk or negedge sys_rst_1) begin
                 if(!sys_rst_1) begin
-                        sync_data <= 0;
-                        data <= 0;
+                        sync_data <= 1;
+                        data <= 1;
                 end
                 else begin
                         sync_data <= uart_REC_dataH;
@@ -145,7 +145,7 @@ module u_rec #(parameter WORD_LEN = 8)(
                                         count_word = 0;
                                 end
                                 default: begin
-                                        rec_dataH = 0;
+                                        rec_dataH = rec_dataH;
                                         rec_readyH = 1;
                                         rec_busy = 0;
                                         count_word = 0;
