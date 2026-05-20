@@ -5,6 +5,7 @@ module u_rec #(parameter WORD_LEN = 8)(
 );
 
         reg [3:0] count;
+        reg [WORD_LEN-1:0] temp;
         reg [2:0] count_word;
         reg flag;
         reg sync_data,data;
@@ -91,7 +92,7 @@ module u_rec #(parameter WORD_LEN = 8)(
                                 else NS = DATA;
                         end
                         STOP: begin
-                                if(count == 15) begin
+                                if(count == 13) begin
                                         NS = IDLE;
                                 end
                                 else NS = STOP;
@@ -109,7 +110,7 @@ module u_rec #(parameter WORD_LEN = 8)(
                 else begin
                         case(PS)
                                 IDLE: begin
-                                        rec_dataH = 0;
+                                        rec_dataH = rec_dataH;
                                         rec_readyH = ~(prev_data && !data);
                                         rec_busy = (prev_data && !data);
                                         count_word = 0;
@@ -123,15 +124,15 @@ module u_rec #(parameter WORD_LEN = 8)(
                                 DATA: begin
                                         rec_readyH = 0;
                                         rec_busy = 1;
-                                        if(count == 4) begin
-                                                rec_dataH = {data,rec_dataH[WORD_LEN-1:1]};
+                                        if(count == 5) begin
+                                                temp = {data,temp[WORD_LEN-1:1]};
                                         end
                                         if(count == 15) count_word = count_word + 1;
                                 end
                                 STOP: begin
-                                        if(count == 15) begin
+                                        if(count == 13) begin
                                                 if(flag) begin
-                                                        rec_dataH = rec_dataH;
+                                                        rec_dataH = temp;
                                                         rec_readyH = 1;
                                                         rec_busy = 0;
                                                 end
