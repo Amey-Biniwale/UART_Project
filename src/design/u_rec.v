@@ -60,13 +60,13 @@ module u_rec #(parameter WORD_LEN = 8)(
 
         always @(posedge uart_clk or  negedge sys_rst_1) begin
                 if(!sys_rst_1) begin
-                        flag = 0;
+                        flag <= 0;
                 end
                 else begin
                         if(PS == IDLE || PS == DATA) flag <= 0;
                         else begin
-                                if(PS == START && count == 7 && data == 0) flag = 1;
-                                if(PS == STOP && count == 7 && data == 1) flag = 1;
+                                if(PS == START && count == 7 && data == 0) flag <= 1;
+                                if(PS == STOP && count == 7 && data == 1) flag <= 1;
                         end
                 end
         end
