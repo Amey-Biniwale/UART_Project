@@ -137,7 +137,7 @@ module u_rec #(parameter WORD_LEN = 8)(
                                                         rec_busy = 0;
                                                 end
                                                 else begin
-                                                        rec_dataH = 0;
+                                                        rec_dataH = rec_dataH;
                                                         rec_readyH = 0;
                                                         rec_busy = 1;
                                                 end
